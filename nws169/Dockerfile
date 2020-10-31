@@ -22,17 +22,15 @@ RUN rm -rf \
     *.dll \
     *.txt \
     *.ini \
-    database \
+    database/* \
     dmvault \
     docs \
     erf \
-    hak \
     localvault \
     logs \
-    modules \
+    modules/* \
     nwm \
     portraits \
-    servervault \
     utils
 
 # dockerize installation
@@ -45,6 +43,10 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
 RUN apt-get purge -y wget unzip \
     && apt-get autoclean -y
 
+# create missing directory
+RUN mkdir tlk
+
+# configuration template
 COPY nwnplayer.ini.tmpl .
 
 # module name is not available in nwnplayer.ini, should be configured separately

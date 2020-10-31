@@ -43,10 +43,16 @@ Max Players={{ default .Env.SERVER_OPTIONS_MAX_PLAYERS "6" }}
 Game Port={{ default .Env.SERVER_OPTIONS_GAME_PORT "5121" }}
 
 [Banned Ips]
-0=
+{{ range $i, $v := split (default .Env.BANNED_IPS "") "|" }}
+    {{- $i }}={{ $v }}
+{{ end }}
 
 [Banned Players]
-0=
+{{ range $i, $v := split (default .Env.BANNED_PLAYERS "") "|" }}
+    {{- $i }}={{ $v }}
+{{ end }}
 
 [Banned CD Keys]
-0=
+{{ range $i, $v := split (default .Env.BANNED_CD_KEYS "") "|" }}
+    {{- $i }}={{ $v }}
+{{ end }}
