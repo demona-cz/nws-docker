@@ -37,9 +37,9 @@ RUN rm -rf \
 
 # dockerize installation
 ENV DOCKERIZE_VERSION v0.6.1
-RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-386-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-linux-386-$DOCKERIZE_VERSION.tar.gz \
+    && rm dockerize-linux-386-$DOCKERIZE_VERSION.tar.gz
 
 # cleanup unnecessary tools
 RUN apt-get purge -y wget unzip \
