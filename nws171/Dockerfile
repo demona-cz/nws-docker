@@ -1,4 +1,4 @@
-FROM tlii/nwserver169:latest
+FROM demonacz/nws169:latest
 
 # installation tools
 RUN apt-get update \
