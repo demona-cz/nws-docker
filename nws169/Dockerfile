@@ -4,12 +4,12 @@ RUN mkdir /nws
 WORKDIR /nws
 
 # installation tools
-RUN apt-get update \
-    && apt-get install -y wget unzip
+RUN apt-get -qq update \
+    && apt-get -qq install wget unzip p7zip
 
 # unpacking instalation package
-RUN wget https://neverwintervault.org/sites/all/modules/pubdlcnt/pubdlcnt.php?fid=2674 -O nwndedicatedserver1.69.zip \
-    && unzip nwndedicatedserver1.69.zip \
+RUN wget --quiet https://neverwintervault.org/sites/all/modules/pubdlcnt/pubdlcnt.php?fid=2674 -O nwndedicatedserver1.69.zip \
+    && unzip -q nwndedicatedserver1.69.zip \
     && tar xzf linuxdedserver169.tar.gz \
     && bash fixinstall
 
@@ -35,23 +35,23 @@ RUN rm -rf \
 
 # dockerize installation
 ENV DOCKERIZE_VERSION v0.6.1
-RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-386-$DOCKERIZE_VERSION.tar.gz \
-    && tar -C /usr/local/bin -xzvf dockerize-linux-386-$DOCKERIZE_VERSION.tar.gz \
+RUN wget --quiet https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-386-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzf dockerize-linux-386-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-linux-386-$DOCKERIZE_VERSION.tar.gz
-
-# cleanup unnecessary tools
-RUN apt-get purge -y wget unzip \
-    && apt-get autoclean -y
 
 # create missing directory
 RUN mkdir tlk
 
 # configuration template
 COPY nwnplayer.ini.tmpl .
+COPY entrypoint.sh .
+COPY DockerDemo.zip .
+
+# demo module for quick testing purposes
+RUN unzip -q -d modules/ DockerDemo.zip \
+    && rm -f DockerDemo.zip
 
 # module name is not available in nwnplayer.ini, should be configured separately
-ENV NWS_MODULE module
+ENV NWS_MODULE DockerDemo
 
-ENTRYPOINT dockerize \
-    -template ./nwnplayer.ini.tmpl:./nwnplayer.ini \
-    ./nwserver -module $NWS_MODULE
+ENTRYPOINT [ "./entrypoint.sh" ]
