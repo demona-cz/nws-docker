@@ -1,7 +1,7 @@
 FROM i386/ubuntu:bionic
 
-RUN mkdir /nws
-RUN chmod 0777 /nws
+RUN mkdir /nws \
+    && chmod 0777 /nws
 WORKDIR /nws
 
 # installation tools
